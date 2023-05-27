@@ -31,8 +31,9 @@ class _ViewProductPageState extends State<ViewProductPage> {
 
   @override
   void didChangeDependencies() {
-    /*Provider.of<ProductProvider>(context, listen: false).getAllCategories();
+    Provider.of<ProductProvider>(context, listen: false).getAllCategories();
     Provider.of<ProductProvider>(context, listen: false).getAllProducts();
+    /*
     Provider.of<OrderProvider>(context, listen: false).getOrderConstants();
     Provider.of<OrderProvider>(context, listen: false).getAllOrders();
     Provider.of<UserProvider>(context, listen: false).getUserInfo();
@@ -44,9 +45,9 @@ class _ViewProductPageState extends State<ViewProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const MainDrawer(),
-      appBar: AppBar(
-        title: const Text('Products'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Products'),
+      // ),
       body: Consumer<ProductProvider>(
         builder: (context, provider, child) {
           return CustomScrollView(
@@ -59,13 +60,13 @@ class _ViewProductPageState extends State<ViewProductPage> {
                 pinned: true,
                 floating: true,
                 flexibleSpace: FlexibleSpaceBar(
-                  title: const Text('Products'),
+                  title: const Text('Products',style: TextStyle(color: Colors.black),),
                   background: ListView(
                     children: [
                       const SizedBox(
                         height: 50,
                       ),
-                      /*Padding(
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownButtonFormField<CategoryModel>(
                           hint: const Text('Select Category'),
@@ -87,10 +88,14 @@ class _ViewProductPageState extends State<ViewProductPage> {
                             setState(() {
                               categoryModel = value;
                             });
-                            provider.getAllProductsByCategory(categoryModel!);
+                            if(categoryModel!.categoryName == 'All'){
+                              provider.getAllProducts();
+                            }else {
+                              provider.getAllProductsByCategory(categoryModel!);
+                            }
                           },
                         ),
-                      ),*/
+                      ),
                     ],
                   ),
                 ),

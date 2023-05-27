@@ -31,9 +31,12 @@ class ProductGridItemView extends StatelessWidget {
                     const Icon(Icons.error),
                   ),
                 ),
-                Text(
-                  productModel.productName,
-                  style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    productModel.productName,
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
                 ),
                 if (productModel.productDiscount > 0)
                   Padding(

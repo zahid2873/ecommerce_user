@@ -1,5 +1,8 @@
+import 'package:ecom_user_app/models/cart_model.dart';
+import 'package:ecom_user_app/providers/cart_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/cart_page.dart';
@@ -17,15 +20,17 @@ import 'providers/order_provider.dart';
 import 'providers/product_provider.dart';
 import 'providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ProductProvider()),
     ChangeNotifierProvider(create: (_) => OrderProvider()),
     ChangeNotifierProvider(create: (_) => UserProvider()),
     ChangeNotifierProvider(create: (_) => NotificationProvider()),
+    ChangeNotifierProvider(create: (_)=>CartProvider()),
   ], child: const MyApp()));
 }
 
@@ -38,6 +43,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      builder: EasyLoading.init(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(
@@ -48,7 +54,7 @@ class MyApp extends StatelessWidget {
             titleTextStyle: TextStyle(color: Colors.black, fontSize: 18)
         ),
         textTheme: GoogleFonts.josefinSansTextTheme(),
-        primarySwatch: Colors.blue,
+       // primarySwatch: Colors.blue,
       ),
       initialRoute: LauncherPage.routeName,
       routes: {

@@ -55,7 +55,7 @@ class DbHelper {
       _db.collection(collectionCategory).snapshots();
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
-      _db.collection(collectionProduct).snapshots();
+      _db.collection(collectionProduct).where(productFieldAvailable, isEqualTo: true).snapshots();
 
   static Future<DocumentSnapshot<Map<String, dynamic>>> getProductById(String id) =>
       _db.collection(collectionProduct).doc(id).get();
@@ -66,6 +66,7 @@ class DbHelper {
           .collection(collectionProduct)
           .where('$productFieldCategory.$categoryFieldId',
           isEqualTo: categoryModel.categoryId)
+          .where(productFieldAvailable, isEqualTo: true)
           .snapshots();
 
   static Future<void> addUser(UserModel userModel) {

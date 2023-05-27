@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom_user_app/pages/product_details_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -143,7 +144,27 @@ class _LoginPageState extends State<LoginPage> {
       EasyLoading.show(status: 'Please wait', dismissOnTap: false);
       final email = _emailController.text;
       final password = _passwordController.text;
+      UserCredential userCredential;
+      EasyLoading();
       try {
+        if(tag){
+          userCredential = await AuthService.login(email, password);
+          //EasyLoading();
+        }else{
+          userCredential = await AuthService.register(email, password);
+         // EasyLoading();
+        }
+
+        if(!tag){
+          final userModel = UserModel(
+              userId: userCredential.user!.uid,
+              email: userCredential.user!.email!,
+              userCreationTime: Timestamp.fromDate(userCredential.user!.metadata!.creationTime!),
+          );
+          await userProvider.addUser(userModel);
+        }
+        EasyLoading.dismiss();
+        Navigator.pushReplacementNamed(context, ProductDetailsPage.routeName);
 
       } on FirebaseAuthException catch (error) {
         EasyLoading.dismiss();

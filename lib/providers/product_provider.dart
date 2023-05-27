@@ -46,7 +46,6 @@ class ProductProvider extends ChangeNotifier {
     return DbHelper.updateProductField(productId, {field : value});
   }
 
-/*
   List<CategoryModel> getCategoryListForFiltering() {
     return [CategoryModel(categoryName: 'All'), ... categoryList];
   }
@@ -58,6 +57,11 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+/*
+
+
+
 
   Future<String> uploadImage(String thumbnailImageLocalPath) async {
     final photoRef = FirebaseStorage.instance
