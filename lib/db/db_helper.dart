@@ -122,12 +122,12 @@ class DbHelper {
         .set(cartModel.toMap());
   }
 
-  static Future<void> removeFromCart(String uid, String s) {
+  static Future<void> removeFromCart(String uid, String pid) {
     return _db
         .collection(collectionUser)
         .doc(uid)
         .collection(collectionCart)
-        .doc(s)
+        .doc(pid)
         .delete();
   }
 

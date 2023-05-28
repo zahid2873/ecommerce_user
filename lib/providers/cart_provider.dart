@@ -1,6 +1,9 @@
 
+import 'package:ecom_user_app/auth/authservice.dart';
+import 'package:ecom_user_app/utils/helper_function.dart';
 import 'package:flutter/material.dart';
 
+import '../db/db_helper.dart';
 import '../models/cart_model.dart';
 import '../models/product_model.dart';
 
@@ -25,13 +28,24 @@ class CartProvider extends ChangeNotifier {
 
   addToCart(ProductModel productModel) {
 
+    final cartModel = CartModel(
+        productId: productModel.productId!,
+        categoryId: productModel.category.categoryId!,
+        productName: productModel.productName,
+        productImageUrl: productModel.thumbnailImageUrl,
+        salePrice: num.parse(calculatePriceAfterDiscount(productModel.salePrice, productModel.productDiscount)));
+    DbHelper.addToCart(AuthService.currentUser!.uid, cartModel);
+
   }
-
-  removeFromCart(String s) {
-
+  removeFromCart(String pid) {
+    DbHelper.removeFromCart(AuthService.currentUser!.uid, pid);
   }
 
   void getAllCartItems() {
+    DbHelper.getAllCartItems(AuthService.currentUser!.uid).listen((snapshot) {
+      cartList = List.generate(snapshot.docs.length, (index) => CartModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
 
   }
 
