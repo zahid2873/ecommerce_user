@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/cart_model.dart';
 import '../providers/cart_provider.dart';
@@ -31,9 +32,11 @@ class CartItemView extends StatelessWidget {
                 title: Text(cartModel.productName),
                 subtitle: Text('Unit Price: $currencySymbol${cartModel.salePrice}'),
                 trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.delete),
-                ),
+                    onPressed: () {
+                      provider.removeFromCart(cartModel.productId);
+                    },
+                    icon: const Icon(Icons.delete),
+                  ),
               ),
               Row(
                 children: [

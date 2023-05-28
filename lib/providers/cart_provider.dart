@@ -51,10 +51,18 @@ class CartProvider extends ChangeNotifier {
 
   void increaseQuantity(CartModel cartModel) {
 
+    cartModel.quantity += 1;
+
+    DbHelper.updateCartQuantity(AuthService.currentUser!.uid, cartModel);
+
   }
 
   void decreaseQuantity(CartModel cartModel) {
+    if(cartModel.quantity >1) {
+      cartModel.quantity -= 1;
 
+      DbHelper.updateCartQuantity(AuthService.currentUser!.uid, cartModel);
+    }
   }
 
   num getCartSubTotal() {
