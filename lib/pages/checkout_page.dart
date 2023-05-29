@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom_user_app/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   String paymentMethodGroupValue = PaymentMethod.cod;
   String? city;
   final addressLine1Controller = TextEditingController();
-  final addressLine2Controller = TextEditingController();
+  final  addressLine2Controller = TextEditingController();
   final zipCodeController = TextEditingController();
   @override
   void didChangeDependencies() {
@@ -255,6 +256,30 @@ class _CheckoutPageState extends State<CheckoutPage> {
     EasyLoading.show(status: 'Please wait');
 
     try {
+      final orderModel = OrderModel(
+          orderId: generateOrderId,
+          userId: AuthService.currentUser!.uid,
+          orderStatus: OrderStatus.pending,
+          paymentMethod: paymentMethodGroupValue,
+          grandTotal: orderProvider.getGrandTotal(cartProvider.getCartSubTotal()),
+          discount: orderProvider.orderConstantModel.discount,
+          VAT: orderProvider.orderConstantModel.vat,
+          deliveryCharge: orderProvider.orderConstantModel.deliveryCharge,
+          orderDate: DateModel(
+              timestamp: Timestamp.fromDate(DateTime.now()),
+              day: DateTime.now().day,
+              month: DateTime.now().month,
+              year: DateTime.now().year,
+          ),
+          deliveryAddress: AddressModel(
+              addressLine1: addressLine1Controller.text,
+              addressLine2: addressLine2Controller.text.isEmpty ? null : addressLine2Controller.text,
+              city: city!,
+              zipcode: zipCodeController.text
+          ),
+          productDetails: cartProvider.cartList,
+      );
+      orderProvider.saveOrder(orderModel);
 
     } catch (error) {
       EasyLoading.dismiss();

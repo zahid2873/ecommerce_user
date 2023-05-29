@@ -25,4 +25,4 @@ String calculatePriceAfterDiscount(num price, num discount) {
 }
 
 String get generateOrderId =>
-    'PB_${getFormattedDate(DateTime.now(), pattern: 'yyyyMMdd_HH:mm:ss')}';
+    'zhm_${getFormattedDate(DateTime.now(), pattern: 'yyyyMMdd_HH:mm:ss')}';
