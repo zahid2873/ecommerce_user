@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom_user_app/models/product_model.dart';
+import 'package:ecom_user_app/pages/view_product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -232,9 +233,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     if (userProvider.userModel != null) {
       if (userProvider.userModel!.addressModel != null) {
         final address = userProvider.userModel!.addressModel!;
-        addressLine1Controller.text = address.addressLine1!;
-        addressLine2Controller.text = address.addressLine2!;
-        zipCodeController.text = address.zipcode!;
+        addressLine1Controller.text = address.addressLine1;
+        addressLine2Controller.text = address.addressLine2 ?? '';
+        zipCodeController.text = address.zipcode;
         city = address.city;
       }
     }
@@ -280,6 +281,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
           productDetails: cartProvider.cartList,
       );
       orderProvider.saveOrder(orderModel);
+      cartProvider.clearCart();
+      EasyLoading.dismiss();
+      Navigator.pushNamedAndRemoveUntil(context, OrderSuccessfulPage.routeName,ModalRoute.withName(ViewProductPage.routeName));
 
     } catch (error) {
       EasyLoading.dismiss();

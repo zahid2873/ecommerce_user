@@ -166,6 +166,8 @@ class DbHelper {
         (prevCategoryProductCount - cartModel.quantity)
       });
     }
+    final userDoc = _db.collection(collectionUser).doc(orderModel.userId);
+    wb.update(userDoc, {userFieldAddressModel : orderModel.deliveryAddress.toMap()});
     return wb.commit();
   }
 

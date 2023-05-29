@@ -74,6 +74,6 @@ class CartProvider extends ChangeNotifier {
   }
 
   clearCart() {
-
+    DbHelper.clearCartItems(AuthService.currentUser!.uid, cartList);
   }
 }
