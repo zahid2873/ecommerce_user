@@ -34,10 +34,12 @@ class _ViewProductPageState extends State<ViewProductPage> {
     Provider.of<ProductProvider>(context, listen: false).getAllCategories();
     Provider.of<ProductProvider>(context, listen: false).getAllProducts();
     Provider.of<CartProvider>(context, listen: false).getAllCartItems();
-    /*
     Provider.of<OrderProvider>(context, listen: false).getOrderConstants();
-    Provider.of<OrderProvider>(context, listen: false).getAllOrders();
     Provider.of<UserProvider>(context, listen: false).getUserInfo();
+
+
+    /*
+    Provider.of<OrderProvider>(context, listen: false).getAllOrders();
     */
     super.didChangeDependencies();
   }

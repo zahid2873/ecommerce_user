@@ -12,17 +12,6 @@ class OrderProvider extends ChangeNotifier {
   List<OrderModel> orderList = [];
   List<OrderItem> orderItemList = [];
 
-/*getAllOrders() {
-    DbHelper.getAllOrdersByUser(AuthService.currentUser!.uid)
-        .listen((snapshot) {
-      orderList = List.generate(snapshot.docs.length,
-          (index) => OrderModel.fromMap(snapshot.docs[index].data()));
-      orderItemList =
-          orderList.map((order) => OrderItem(orderModel: order)).toList();
-      notifyListeners();
-    });
-  }
-
   getOrderConstants() {
     DbHelper.getOrderConstants().listen((snapshot) {
       if (snapshot.exists) {
@@ -41,6 +30,21 @@ class OrderProvider extends ChangeNotifier {
     return ((priceAfterDiscount * orderConstantModel.vat) / 100).round();
   }
 
+  getAllOrders() {
+    DbHelper.getAllOrdersByUser(AuthService.currentUser!.uid)
+        .listen((snapshot) {
+      orderList = List.generate(snapshot.docs.length,
+          (index) => OrderModel.fromMap(snapshot.docs[index].data()));
+      orderItemList =
+          orderList.map((order) => OrderItem(orderModel: order)).toList();
+      notifyListeners();
+    });
+  }
+
+
+
+
+
   int getGrandTotal(num cartSubTotal) {
     return ((cartSubTotal -
             getDiscountAmount(cartSubTotal) +
@@ -51,5 +55,5 @@ class OrderProvider extends ChangeNotifier {
 
   Future<void> saveOrder(OrderModel orderModel) {
     return DbHelper.saveOrder(orderModel);
-  }*/
+  }
 }

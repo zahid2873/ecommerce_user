@@ -110,12 +110,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
               title: Text(
                   'Discount(${orderProvider.orderConstantModel.discount}%)'),
               trailing: Text(
-                  '-$currencySymbol'),
+                  '-$currencySymbol${orderProvider.getDiscountAmount(cartProvider.getCartSubTotal())}'),
             ),
             ListTile(
               title: Text('VAT(${orderProvider.orderConstantModel.vat}%)'),
               trailing: Text(
-                  '$currencySymbol'),
+                  '$currencySymbol${orderProvider.getVatAmount(cartProvider.getCartSubTotal())}'),
             ),
             ListTile(
               title: const Text('Delivery Charge'),
@@ -132,7 +132,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               trailing: Text(
-                  '$currencySymbol'),
+                  '$currencySymbol${orderProvider.getGrandTotal(cartProvider.getCartSubTotal())}'),
             ),
           ],
         ),
@@ -155,7 +155,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             TextField(
               controller: addressLine2Controller,
               decoration: InputDecoration(
-                hintText: 'Address Line 2',
+                hintText: 'Address Line 2 (Optional)',
               ),
             ),
             TextField(
@@ -228,7 +228,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   void _setAddress() {
-    /*if (userProvider.userModel != null) {
+    if (userProvider.userModel != null) {
       if (userProvider.userModel!.addressModel != null) {
         final address = userProvider.userModel!.addressModel!;
         addressLine1Controller.text = address.addressLine1!;
@@ -236,7 +236,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         zipCodeController.text = address.zipcode!;
         city = address.city;
       }
-    }*/
+    }
   }
 
   void _saveOrder() async {
