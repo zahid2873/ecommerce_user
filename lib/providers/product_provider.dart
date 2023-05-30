@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:ecom_user_app/auth/authservice.dart';
+import 'package:ecom_user_app/models/comment_model.dart';
 import 'package:ecom_user_app/models/rating_model.dart';
+import 'package:ecom_user_app/models/user_model.dart';
+import 'package:ecom_user_app/utils/helper_function.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../db/db_helper.dart';
@@ -76,6 +79,23 @@ class ProductProvider extends ChangeNotifier {
     }
     final avgRating = total / ratingList.length;
     return updateProductField(pid, productFieldAvgRating, avgRating);
+  }
+
+  Future<void> addComment(UserModel userModel,String pid, String comment){
+    final commentModel = CommentModel(
+        commentId: DateTime.now().millisecondsSinceEpoch,
+        userModel: userModel,
+        productId: pid,
+        comment: comment,
+        date: getFormattedDate(DateTime.now(),pattern: 'dd/MM/yyyy hh:mm:ss a')
+    );
+    return DbHelper.addComment(commentModel);
+  }
+
+  Future<List<CommentModel>> getAllCommentsByProduct(String s) async {
+    final snapshot = await DbHelper.getAllCommentsByProduct(s);
+    return List.generate(snapshot.docs.length, (index) => CommentModel.fromMap(snapshot.docs[index].data()));
+
   }
 
 /*

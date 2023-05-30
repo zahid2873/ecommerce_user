@@ -98,7 +98,7 @@ class DbHelper {
         .collection(collectionProduct)
         .doc(commentModel.productId)
         .collection(collectionComment)
-        .doc(commentModel.commentId)
+        .doc(commentModel.commentId.toString())
         .set(commentModel.toMap());
   }
 
@@ -189,4 +189,6 @@ class DbHelper {
         .doc(notificationModel.id)
         .set(notificationModel.toMap());
   }
+
+
 }

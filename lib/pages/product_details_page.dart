@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecom_user_app/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -209,13 +210,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         return;
                       }
 
-                      //EasyLoading.show(status: 'Please wait');
+                      EasyLoading.show(status: 'Please wait');
+                      await productProvider.addComment(context.read<UserProvider>().userModel!,productModel.productId!, txtController.text);
+                      showMsg(context, 'Thanks for your comment. Your comment is waiting for Admin approval.');
 
-
-                      //showMsg(context, 'Thanks for your comment. Your comment is waiting for Admin approval.');
-
-                      //EasyLoading.dismiss();
-                      //focusNode.unfocus();
+                      EasyLoading.dismiss();
+                      focusNode.unfocus();
                     },
                     child: const Text('SUBMIT'),
                   )
@@ -227,7 +227,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             padding: EdgeInsets.all(8),
             child: Text('All Comments'),
           ),
-          /*FutureBuilder<List<CommentModel>>(
+          FutureBuilder<List<CommentModel>>(
             future: productProvider
                 .getAllCommentsByProduct(productModel.productId!),
             builder: (context, snapshot) {
@@ -272,7 +272,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 child: Text('Loading comments...'),
               );
             },
-          )*/
+          )
         ],
       ),
     );
