@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:ecom_user_app/auth/authservice.dart';
+import 'package:ecom_user_app/models/rating_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../db/db_helper.dart';
@@ -56,6 +58,16 @@ class ProductProvider extends ChangeNotifier {
           ProductModel.fromMap(snapshot.docs[index].data()));
       notifyListeners();
     });
+  }
+
+  Future<void> addRating(double rating, String pid)async{
+    final ratingModel = RatingModel(
+        ratingId: AuthService.currentUser!.uid,
+        userId: AuthService.currentUser!.uid,
+        productId: pid,
+        rating: rating
+    );
+    await DbHelper.addRating(ratingModel);
   }
 
 /*

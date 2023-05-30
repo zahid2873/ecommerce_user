@@ -90,8 +90,7 @@ class DbHelper {
         .collection(collectionProduct)
         .doc(ratingModel.productId)
         .collection(collectionRating)
-        .doc(ratingModel.userModel.userId);
-    return ratDoc.set(ratingModel.toMap());
+        .doc(ratingModel.userId).set(ratingModel.toMap());
   }
 
   static Future<void> addComment(CommentModel commentModel) {

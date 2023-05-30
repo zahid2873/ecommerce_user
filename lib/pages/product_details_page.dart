@@ -176,9 +176,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   OutlinedButton(
                     onPressed: () async {
 
-                      //EasyLoading.show(status: 'Please wait');
+                      EasyLoading.show(status: 'Please wait');
+                      productProvider.addRating(userRating,productModel.productId!);
 
-                      //showMsg(context, 'Thanks for your rating');
+                      showMsg(context, 'Thanks for your rating');
                     },
                     child: const Text('SUBMIT'),
                   )
