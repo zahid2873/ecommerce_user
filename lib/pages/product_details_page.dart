@@ -177,8 +177,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     onPressed: () async {
 
                       EasyLoading.show(status: 'Please wait');
-                      productProvider.addRating(userRating,productModel.productId!);
-
+                      await productProvider.addRating(userRating,productModel.productId!);
+                      EasyLoading.dismiss();
                       showMsg(context, 'Thanks for your rating');
                     },
                     child: const Text('SUBMIT'),

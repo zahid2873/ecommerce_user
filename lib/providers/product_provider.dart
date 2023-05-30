@@ -65,9 +65,17 @@ class ProductProvider extends ChangeNotifier {
         ratingId: AuthService.currentUser!.uid,
         userId: AuthService.currentUser!.uid,
         productId: pid,
-        rating: rating
+        rating: rating,
     );
     await DbHelper.addRating(ratingModel);
+    final snapshot = await DbHelper.getRatingsByProduct(pid);
+    final ratingList = List.generate(snapshot.docs.length, (index) => RatingModel.fromMap(snapshot.docs[index].data()));
+    double total = 0.0;
+    for(var rating in ratingList){
+      total += rating.rating;
+    }
+    final avgRating = total / ratingList.length;
+    return updateProductField(pid, productFieldAvgRating, avgRating);
   }
 
 /*
