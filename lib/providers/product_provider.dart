@@ -81,7 +81,7 @@ class ProductProvider extends ChangeNotifier {
     return updateProductField(pid, productFieldAvgRating, avgRating);
   }
 
-  Future<void> addComment(UserModel userModel,String pid, String comment){
+  Future<CommentModel> addComment(UserModel userModel,String pid, String comment)async{
     final commentModel = CommentModel(
         commentId: DateTime.now().millisecondsSinceEpoch,
         userModel: userModel,
@@ -89,7 +89,8 @@ class ProductProvider extends ChangeNotifier {
         comment: comment,
         date: getFormattedDate(DateTime.now(),pattern: 'dd/MM/yyyy hh:mm:ss a')
     );
-    return DbHelper.addComment(commentModel);
+    await DbHelper.addComment(commentModel);
+    return commentModel;
   }
 
   Future<List<CommentModel>> getAllCommentsByProduct(String s) async {

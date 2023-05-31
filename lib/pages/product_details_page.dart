@@ -211,9 +211,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       }
 
                       EasyLoading.show(status: 'Please wait');
-                      await productProvider.addComment(context.read<UserProvider>().userModel!,productModel.productId!, txtController.text);
+                      final commentModel = await productProvider.addComment(context.read<UserProvider>().userModel!,productModel.productId!, txtController.text);
                       showMsg(context, 'Thanks for your comment. Your comment is waiting for Admin approval.');
 
+                      // add notification for new comment
+                      final notificationModel = NotificationModel(
+                          id: DateTime.now().millisecondsSinceEpoch.toString(),
+                          type: NotificationType.comment,
+                          message: "A comment on product ${productModel.productName} is waiting for your approval",
+                          commentModel: commentModel,
+                      );
+                      await context.read<NotificationProvider>().addNotification(notificationModel);
                       EasyLoading.dismiss();
                       focusNode.unfocus();
                     },
