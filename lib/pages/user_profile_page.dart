@@ -37,7 +37,7 @@ class UserProfilePage extends StatelessWidget {
                   title: 'Mobile Number',
                   onSubmit: (value) {
                     print('input: $value');
-
+                    userProvider.updateUserProfileField(userFieldPhone, value);
                   },
                 );
               },

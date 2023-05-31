@@ -282,6 +282,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
       );
       orderProvider.saveOrder(orderModel);
       cartProvider.clearCart();
+      final notificationModel = NotificationModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        type: NotificationType.order,
+        message: "You have a new order",
+        orderModel: orderModel,
+      );
+      await context.read<NotificationProvider>().addNotification(notificationModel);
       EasyLoading.dismiss();
       Navigator.pushNamedAndRemoveUntil(context, OrderSuccessfulPage.routeName,ModalRoute.withName(ViewProductPage.routeName));
 
